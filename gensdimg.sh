@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 SDIMG=generated/sdcard.img
 
@@ -47,7 +47,10 @@ mkimage -A arm -O linux -T script -C none -a 0 -e 0 -d boot.txt generated/boot.s
 # Create boot.img
 rm generated/boot.img
 mkfs.vfat -n "orange-pi" -S 512 -C generated/boot.img $(( 1024 * 10 ))
+
+dtc -@ -I dts -O dtb -o generated/fstab-android-sdcard.dtb fstab-android-sdcard.dts
 mcopy -i generated/boot.img -s uImage ::uImage
+mcopy -i generated/boot.img -s generated/fstab-android-sdcard.dtb ::fstab-android-sdcard.dtb
 mcopy -i generated/boot.img -s generated/boot.scr ::boot.scr
 mcopy -i generated/boot.img -s sun8i-h3-orangepi-one.dtb ::sun8i-h3-orangepi-one.dtb
 
