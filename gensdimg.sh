@@ -69,7 +69,7 @@ mcopy -i generated/boot.img -s ${DTB_NAME} ::${DTB_NAME}
 add_part generated/boot.img boot
 add_part vendor.img vendor
 add_part system.img system
-add_part vbmeta.img vbmeta
+#add_part vbmeta.img vbmeta
 add_part userdata.img userdata
 
 # Put u-boot with spl to image
