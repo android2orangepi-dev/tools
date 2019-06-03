@@ -1,5 +1,14 @@
 #!/bin/sh -e
 
+# It is possible to use the first parameter for setting a dtb-file name, eg:
+# ./gensdimg.sh sun8i-h3-orangepi-one.dtb
+
+DTB_NAME=sun8i-h3-orangepi-one.dtb
+
+if [ $1 ]
+then DTB_NAME=$1
+fi
+
 SDIMG=generated/sdcard.img
 
 PART_START=$(( 2048 * 1024 ))
@@ -54,7 +63,7 @@ dtc -@ -I dts -O dtb -o generated/fstab-android-sdcard.dtb fstab-android-sdcard.
 mcopy -i generated/boot.img -s zImage ::zImage
 mcopy -i generated/boot.img -s generated/fstab-android-sdcard.dtb ::fstab-android-sdcard.dtb
 mcopy -i generated/boot.img -s generated/boot.scr ::boot.scr
-mcopy -i generated/boot.img -s sun8i-h3-orangepi-one.dtb ::sun8i-h3-orangepi-one.dtb
+mcopy -i generated/boot.img -s ${DTB_NAME} ::${DTB_NAME}
 
 # Add partitions
 add_part generated/boot.img boot
